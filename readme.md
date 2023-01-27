@@ -1,6 +1,6 @@
-# image-crop
+# dicom-image-crop
 
-image-crop is a project used for cropping digital images. It allows for users to select a rectangular area of the image and crop it out, allowing them to resize and adjust the image as needed.
+dicom-image-crop is a project used for cropping digital images. It allows for users to select a rectangular area of the image and crop it out, allowing them to resize and adjust the image as needed.
 
 The project has the following features:
 
