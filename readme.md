@@ -1,6 +1,6 @@
 # image-crop
 
-Image-Crop is a project used for cropping digital images. It allows for users to select a rectangular area of the image and crop it out, allowing them to resize and adjust the image as needed.
+image-crop is a project used for cropping digital images. It allows for users to select a rectangular area of the image and crop it out, allowing them to resize and adjust the image as needed.
 
 The project has the following features:
 
