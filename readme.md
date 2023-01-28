@@ -41,4 +41,4 @@ dicom-image-crop edges example.DCM
 
 Command | Input | Output
 ------- | ----- | ------
-crop | ![Input](./sample.jpg) | ![Out](./output.jpg)
+crop | ![Input](./examples/sample.jpg) | ![Out](./examples/output.jpg)

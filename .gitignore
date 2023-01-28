@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 
 SAMPLE/
+OUT_DICOM_JPG/
 
 # C extensions
 *.so

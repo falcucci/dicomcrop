@@ -28,28 +28,30 @@ def generate_token(patient_id):
     }, SECRET, algorithm="HS256") 
     return encoded_id
 
-def create_output_dir():
+def create_output_dir(output: str):
     """
     Creates an output directory to store generated files from the program.
     """
-    os.makedirs(OUT_JPG_FILES, exist_ok=True)
+    os.makedirs(output or OUT_JPG_FILES, exist_ok=True)
 
 def get_arguments():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "-i",
-        "--input",
-        help="Path of Input Image"
+        "-dir",
+        "--directory",
+        help="Image Paths"
     )
+
     parser.add_argument(
         "-o",
         "--output",
-        help="Path to Output Image"
+        help="Path to Output Image",
+        default=OUT_JPG_FILES
     )
 
     args = parser.parse_args()
-    if not args.input or not args.output:
+    if not args.directory:
         parser.error("Please specify the path for image")
 
     return args
@@ -149,19 +151,44 @@ class AutoCrop:
 
 if __name__ == "__main__":
     args = get_arguments()
-    path = args.input
+    path = args.directory
     output = args.output
 
-    img = Image.open(path)
+    create_output_dir(output)
+    images: list[str] = glob.glob(os.path.join('./SAMPLE/', '*.DCM'))
+    for image in images:
+        scaled_image = dicom2jpg.dicom2img(image)
+        _bytes: Image.Image = Image.fromarray(scaled_image)
+        img_crop: AutoCrop = AutoCrop(_bytes)
+        coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
 
-    img_crop = AutoCrop(img)
-    coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
+        print("Cropping area " + str(coordinates))
+        print(_bytes.size)
 
-    print("Cropping area " + str(coordinates) + " from " + path + " to " + output)
-    print(img.size)
+        cropped: Image.Image = _bytes.crop(coordinates) 
 
-    cropped: Image.Image = img.crop(coordinates) 
-    cropped.save(output)
+        # genrate random uuid
+        import uuid
+        # patient_id = uuid.uuid4()
+        # print(patient_id)
+        encoded_id: str = generate_token({ "id": "{0}".format(uuid.uuid4())})
+        # cropped.show()
+
+        cropped.save('{0}/__{1}.jpg'.format(
+            OUT_JPG_FILES,
+            encoded_id
+        ))
+
+    # img = Image.open(path)
+    #
+    # img_crop = AutoCrop(img)
+    # coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
+    #
+    # print("Cropping area " + str(coordinates) + " from " + path + " to " + output)
+    # print(img.size)
+    #
+    # cropped: Image.Image = img.crop(coordinates) 
+    # cropped.save(output)
 
 
     # create_output_dir()
