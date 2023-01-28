@@ -33,8 +33,8 @@ Returns the distance in pixels in the form:
 left,right,top,bottom
 
 ```shell
-$ dicom-image-crop edges example.DCM
-$ > 100,500,10,700
+dicom-image-crop edges example.DCM
+> 100,500,10,700
 ```
 
 #### summary
