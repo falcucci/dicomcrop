@@ -148,42 +148,42 @@ class AutoCrop:
 
 
 if __name__ == "__main__":
-    # args = get_arguments()
-    # path = args.input
-    # output = args.output
+    args = get_arguments()
+    path = args.input
+    output = args.output
+
+    img = Image.open(path)
+
+    img_crop = AutoCrop(img)
+    coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
+
+    print("Cropping area " + str(coordinates) + " from " + path + " to " + output)
+    print(img.size)
+
+    cropped: Image.Image = img.crop(coordinates) 
+    cropped.save(output)
+
+
+    # create_output_dir()
+    # dicom_images = glob.glob(os.path.join('./SAMPLE/', '*.DCM'))
+    # for image in dicom_images:
+    #     print(image)
+    #     scaled_image = dicom2jpg.dicom2img(image)
+    #     img = Image.fromarray(scaled_image)
     #
-    # img = Image.open(path)
+    #     img_crop = AutoCrop(img)
+    #     coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
     #
-    # img_crop = AutoCrop(img)
-    # coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
+    #     print("Cropping area " + str(coordinates))
+    #     print(img.size)
     #
-    # print("Cropping area " + str(coordinates) + " from " + path + " to " + output)
-    # print(img.size)
+    #     cropped: Image.Image = img.crop(coordinates) 
     #
-    # cropped: Image.Image = img.crop(coordinates) 
-    # cropped.save(output)
-
-
-    create_output_dir()
-    dicom_images = glob.glob(os.path.join('./SAMPLE/', '*.DCM'))
-    for image in dicom_images:
-        print(image)
-        scaled_image = dicom2jpg.dicom2img(image)
-        img = Image.fromarray(scaled_image)
-
-        img_crop = AutoCrop(img)
-        coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
-
-        print("Cropping area " + str(coordinates))
-        print(img.size)
-
-        cropped: Image.Image = img.crop(coordinates) 
-
-        encoded_id: str = generate_token(img.__hash__)
-        cropped.show()
-
-        cropped.save('{0}/__{1}.jpg'.format(
-            OUT_JPG_FILES,
-            encoded_id
-
-        ))
+    #     encoded_id: str = generate_token(img.__hash__)
+    #     cropped.show()
+    #
+    #     cropped.save('{0}/__{1}.jpg'.format(
+    #         OUT_JPG_FILES,
+    #         encoded_id
+    #
+    #     ))
