@@ -19,8 +19,9 @@ def _hash(data: dict = {}, encrypted: bool = False) -> str:
     import uuid   
     from lib import generate_token
     _id: str = str(uuid.uuid4())  
+    _id: str = data.get("PatientID", _id)
     return (
-        generate_token(data.get("PatientID", _id))  
+        generate_token(_id)  
         if encrypted
         else _id
     )

@@ -33,8 +33,11 @@ def open_(image):
         scaled_image = dicom2jpg.dicom2img(image)  
         return (Image.fromarray(scaled_image), ds)
 
+    def extract_jpg(image)  -> tuple[Image.Image, dict]:
+        return Image.open(image), {}
+
     return {
-        "jpg": Image.open,
+        "jpg": extract_jpg,
         "dcm": extract_dicom,
         "dicom": extract_dicom
     }[ext]
