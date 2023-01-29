@@ -16,7 +16,6 @@ def edges(image) -> str:
     coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
     return "{}".format(coordinates)
 
-
 def crop(image, output=''):
     """
     This function takes an image and an output
