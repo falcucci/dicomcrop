@@ -16,10 +16,20 @@ FILE_PATH: str = './SAMPLE/cartel.xlsx'
 SECRET: str = os.environ.get('SECRET', str(uuid.uuid4()))
 
 def get_data(path) -> Workbook:
+    """
+    This function reads the data from the given path and returns
+    a Workbook object.
+
+    Parameters:
+    path (str): The path of the file
+
+    Returns:
+    Workbook: The workbook object with the data
+    """
     from openpyxl import load_workbook
     return load_workbook(filename = path)
 
-def map_values():
+def map_values() -> dict[str, str]:
     """
     A dictionary within all useful informations built by
     { id: { type: <type> } }
@@ -32,7 +42,17 @@ def map_values():
         mapper[cell.value] = { 'type': sheet['BS' + str(cell.row)].value }
     return mapper
 
-def easter_egg(patient_id): 
+
+def easter_egg(patient_id) -> str: 
+    """
+    This function takes in a patient_id and returns an easter egg string.
+
+    Parameters:
+    patient_id (int): The patient ID to use in generating the easter egg
+
+    Returns:
+    str: An easter egg string related to the patient ID
+    """
     values: dict = map_values()
     return values.get(patient_id, {}).get('type', '')
 
