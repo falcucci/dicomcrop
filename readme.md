@@ -32,7 +32,7 @@ dicomcrop --image <image>
 
 #### edges
 
-Extracts the edges around an ultrasound
+Extracts the edges around an medical image
 
 Returns the distance in pixels in the form:
 left,right,top,bottom
