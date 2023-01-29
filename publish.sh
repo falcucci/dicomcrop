@@ -1,3 +1,3 @@
 rm -rf dist
-rm -rf sonocrop.egg-info
+rm -rf dicomcrop.egg-info
 python3 setup.py sdist bdist_wheel && twine upload dist/*
