@@ -64,7 +64,7 @@ class AutoCrop:
         """
         return px[0] >= minimal_color and px[1] >= minimal_color and px[2] >= minimal_color
 
-    def get_top_left(self):
+    def get_top_left(self) -> int:
         """
         This function returns the coordinates of the top left pixel of an image.
 
@@ -84,7 +84,7 @@ class AutoCrop:
             nearest = self.find_nearest_key_by_value(col, key, 10000)
             return (nearest)
 
-    def get_top_right(self):
+    def get_top_right(self) -> int:
         """
         This function gets the top right coordinates of the image.
 
@@ -101,7 +101,7 @@ class AutoCrop:
                 col[x] = col.get(x, 0) + sum(color)
         else:
             key = max(col, key=col.get)
-            nearest = self.find_nearest_key_by_value(col, key, 10000)
+            nearest: int = self.find_nearest_key_by_value(col, key, 10000)
             return (nearest)
 
 
@@ -141,7 +141,7 @@ class AutoCrop:
         col = {}
         for x in range(self.img.size[0]-1, 0, -1):
             for y in range(self.img.size[1]-1, 0, -1):
-                color = self.img.getpixel((x, y))
+                color: tuple[int, int, int] = self.img.getpixel((x, y))
                 col[x+1] = col.get(x+1, 0) + sum(color)
         else:
             key = max(col, key=col.get)
@@ -155,7 +155,7 @@ class AutoCrop:
         It creates a list of keys, up to the high key, and uses a lambda function
         to return the key closest to the minimal value.
         """
-        l_r_pixel_keys = []
+        l_r_pixel_keys: list[int] = []
         for key in mydict.keys():
             l_r_pixel_keys.append(key)
             if key == high_key:
