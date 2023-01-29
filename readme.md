@@ -42,6 +42,31 @@ dicomcrop --edges example.DCM
 > (293, 17, 969, 696)
 ```
 
+#### secrets
+
+Returns a secret string from the library:
+
+```shell
+dicomcrop --secret
+> e06dda30-5312-4623-936e-20b669c10495
+```
+
+#### tokens
+
+Generate a hash string:
+
+```shell
+dicomcrop --token
+> e06dda30-5312-4623-936e-20b669c10495
+```
+
+Generate a encrypted hash scring:
+
+```shell
+dicomcrop --token
+> eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXRpZW50X2lkIjoiZDQxMmY4MmUtY2U5Ni00MTg4LWEwZTktNWFmMTIzYTlkMDZlIn0._xhyeXCoaboKH8rqvzKCWa6Zg7ne9bjSHn58c91aLCc
+```
+
 #### summary
 
 Command | Input | Output
