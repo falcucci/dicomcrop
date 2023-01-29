@@ -69,4 +69,8 @@ def crop_images(directory, output=''):
 
 if __name__ == '__main__':
     import fire
-    fire.Fire({'--dir': crop_images, '--image': crop, '--edges': edges})
+    fire.Fire({
+        '--dir': crop_images,
+        '--image': crop,
+        '--edges': edges
+    })
