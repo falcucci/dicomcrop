@@ -51,7 +51,7 @@ dicomcrop --dir <dir> --encrypted --egg=True
 
 #### edges
 
-Extracts the edges around an medical image
+Extracts the edges around a medical image
 
 Returns the distance in pixels in the form:
 left,right,top,bottom
