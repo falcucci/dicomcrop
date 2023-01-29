@@ -1,16 +1,6 @@
 #!/usr/bin/env python
-import fire
 import jwt
 import os
-from PIL import Image
-import numpy as np
-import pydicom as dicom
-import dicom2jpg
-import glob
-from typing import Tuple
-import argparse
-import operator
-
 
 OUT_JPG_FILES = './OUT_DICOM_JPG'
 
