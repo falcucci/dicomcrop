@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-import jwt
 import os
+
+import jwt
 
 OUT_JPG_FILES = './OUT_DICOM_JPG'
 
