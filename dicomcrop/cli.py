@@ -1,3 +1,15 @@
+def token() -> str:
+    """
+    Generate a token string.
+
+    Returns:
+    str: a token string generated from the lib.generate_token()
+    function with a unique id.
+    """
+    import uuid   
+    from lib import generate_token
+    return generate_token({ "id": "{0}".format(uuid.uuid4())})
+
 def edges(image) -> str:
     """
     This function takes an image as input and returns
@@ -28,7 +40,7 @@ def crop(image, output=''):
     output : str, optional - The output directory to
     save the cropped image.
     """
-    import uuid, os
+    import os
     from PIL import Image
     from lib import AutoCrop, generate_token, OUT_JPG_FILES, open_
     output = output or OUT_JPG_FILES 
@@ -41,9 +53,9 @@ def crop(image, output=''):
 
     print("Cropping area " + str(coordinates))
     cropped: Image.Image = _bytes.crop(coordinates) 
-    encoded_id: str = generate_token({ "id": "{0}".format(uuid.uuid4())})
+    encoded_id: str = token()
     cropped.save('{0}/__{1}.jpg'.format(
-        output or OUT_JPG_FILES,
+        output,
         encoded_id
     ))
 
@@ -80,5 +92,6 @@ if __name__ == '__main__':
     fire.Fire({
         '--dir': crop_images,
         '--image': crop,
-        '--edges': edges
+        '--edges': edges,
+        '--token': token
     })
