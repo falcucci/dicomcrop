@@ -34,7 +34,7 @@ left,right,top,bottom
 
 ```shell
 dicom-image-crop edges example.DCM
-> 100,500,10,700
+> (293, 17, 969, 696)
 ```
 
 #### summary

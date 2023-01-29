@@ -101,7 +101,7 @@ class AutoCrop:
         else:
             key = max(col, key=col.get)
             nearest = self.find_nearest_key_by_value(col, key, 10000)
-            return (nearest) # right
+            return (nearest)
 
 
     def get_lower_left(self):
@@ -122,7 +122,7 @@ class AutoCrop:
         else:
             key = max(col, key=col.get)
             nearest = self.find_nearest_key_by_value(col, key, 10000)
-            return (nearest) # right
+            return (nearest)
 
 
     def get_lower_right(self):
@@ -143,11 +143,9 @@ class AutoCrop:
                 color = self.img.getpixel((x, y))
                 col[x+1] = col.get(x+1, 0) + sum(color)
         else:
-            # print(col)
             key = max(col, key=col.get)
-            # print(key)
             nearest: int = self.find_nearest_key_by_value(col, key, 10000)
-            return (nearest) # right
+            return (nearest)
 
     def find_nearest_key_by_value(self, mydict, high_key, minimal) -> int:
         """
@@ -162,8 +160,7 @@ class AutoCrop:
             if key == high_key:
                 break
 
-        # reverse l_r_pixel_keys
-        l_r_pixel_keys = l_r_pixel_keys[::-1]
+        l_r_pixel_keys: list[int] = l_r_pixel_keys[::-1]
         for r_key in l_r_pixel_keys:
             if mydict[r_key] <= minimal:
                 return r_key
