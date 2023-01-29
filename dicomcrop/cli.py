@@ -114,7 +114,7 @@ def crop_images(directory, output='', encrypted=True, egg=False):
     pool.starmap(crop, images_)
     pool.close()   
 
-if __name__ == '__main__':
+def main():
     import fire
     fire.Fire({
         '--dir': crop_images,
@@ -123,3 +123,6 @@ if __name__ == '__main__':
         '--secret': secret,
         '--token': _hash
     })
+
+if __name__ == '__main__':
+    main()

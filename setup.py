@@ -64,5 +64,10 @@ setup(
       'six',
       'termcolor'
   ],
+entry_points={  # Optional
+    'console_scripts': [
+        'dicomcrop=dicomcrop.cli:main',
+    ],
+},
 
 )
