@@ -22,7 +22,7 @@ Install with pip: ```pip3 install dicom-crop --upgrade```
 
 Automatically crop away static borders
 ```bash
-dicom-image-cropper crop exmaple.DCM output.jpg
+dicom-image-cropper crop <dir>
 ```
 
 #### edges

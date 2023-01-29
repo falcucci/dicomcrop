@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+import fire
 import jwt
 import os
 from PIL import Image
@@ -19,6 +19,22 @@ OUT_JPG_FILES = './OUT_DICOM_JPG'
 SECRET='3vL2ebKDOpytWw3iA+AYAfv+xGanebkgHCCz2caCjkc='
 # env: str = os.environ.get('ENV', 'dev')
 
+def open_(image): 
+    import dicom2jpg
+    from PIL import Image
+    ext: str = image.split('.')[-1]
+    ext: str = ext.lower()
+
+    def extract_dicom(image) -> Image.Image:
+        scaled_image = dicom2jpg.dicom2img(image)  
+        return Image.fromarray(scaled_image)
+
+    return {
+        "jpg": Image.open,
+        "dcm": extract_dicom,
+        "dicom": extract_dicom
+    }[ext]
+
 def generate_token(patient_id):
     """
     Generate a token for the patient id.
@@ -32,29 +48,7 @@ def create_output_dir(output: str):
     """
     Creates an output directory to store generated files from the program.
     """
-    os.makedirs(output or OUT_JPG_FILES, exist_ok=True)
-
-def get_arguments():
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "-dir",
-        "--directory",
-        help="Image Paths"
-    )
-
-    parser.add_argument(
-        "-o",
-        "--output",
-        help="Path to Output Image",
-        default=OUT_JPG_FILES
-    )
-
-    args = parser.parse_args()
-    if not args.directory:
-        parser.error("Please specify the path for image")
-
-    return args
+    os.makedirs(output, exist_ok=True)
 
 
 class AutoCrop:
@@ -147,70 +141,3 @@ class AutoCrop:
         lower_right = self.get_lower_right()
         lower_left = self.get_lower_left()
         return (top_right, top_left, lower_right, lower_left)
-
-
-if __name__ == "__main__":
-    args = get_arguments()
-    path = args.directory
-    output = args.output
-
-    create_output_dir(output)
-    images: list[str] = glob.glob(os.path.join('./SAMPLE/', '*.DCM'))
-    for image in images:
-        scaled_image = dicom2jpg.dicom2img(image)
-        _bytes: Image.Image = Image.fromarray(scaled_image)
-        img_crop: AutoCrop = AutoCrop(_bytes)
-        coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
-
-        print("Cropping area " + str(coordinates))
-        print(_bytes.size)
-
-        cropped: Image.Image = _bytes.crop(coordinates) 
-
-        # genrate random uuid
-        import uuid
-        # patient_id = uuid.uuid4()
-        # print(patient_id)
-        encoded_id: str = generate_token({ "id": "{0}".format(uuid.uuid4())})
-        # cropped.show()
-
-        cropped.save('{0}/__{1}.jpg'.format(
-            OUT_JPG_FILES,
-            encoded_id
-        ))
-
-    # img = Image.open(path)
-    #
-    # img_crop = AutoCrop(img)
-    # coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
-    #
-    # print("Cropping area " + str(coordinates) + " from " + path + " to " + output)
-    # print(img.size)
-    #
-    # cropped: Image.Image = img.crop(coordinates) 
-    # cropped.save(output)
-
-
-    # create_output_dir()
-    # dicom_images = glob.glob(os.path.join('./SAMPLE/', '*.DCM'))
-    # for image in dicom_images:
-    #     print(image)
-    #     scaled_image = dicom2jpg.dicom2img(image)
-    #     img = Image.fromarray(scaled_image)
-    #
-    #     img_crop = AutoCrop(img)
-    #     coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
-    #
-    #     print("Cropping area " + str(coordinates))
-    #     print(img.size)
-    #
-    #     cropped: Image.Image = img.crop(coordinates) 
-    #
-    #     encoded_id: str = generate_token(img.__hash__)
-    #     cropped.show()
-    #
-    #     cropped.save('{0}/__{1}.jpg'.format(
-    #         OUT_JPG_FILES,
-    #         encoded_id
-    #
-    #     ))
