@@ -74,6 +74,15 @@ class AutoCrop:
         return px[0] >= minimal_color and px[1] >= minimal_color and px[2] >= minimal_color
 
     def get_top_left(self):
+        """
+        This function returns the coordinates of the top left pixel of an image.
+
+        Parameters:
+            self (object): The instance of the class that calls the function.
+
+        Returns:
+            nearest (tuple): The coordinates of the top left pixel.
+        """
         col = {}
         for x in range(self.img.size[1]):
             for y in range(self.img.size[0]):
@@ -85,6 +94,15 @@ class AutoCrop:
             return (nearest)
 
     def get_top_right(self):
+        """
+        This function gets the top right coordinates of the image.
+
+        Params:
+            self: reference to the current instance of the class
+
+        Returns:
+            nearest: top right coordinates of the image
+        """
         col = {}
         for x in range(self.img.size[0]):
             for y in range(self.img.size[1]):
@@ -97,6 +115,15 @@ class AutoCrop:
 
 
     def get_lower_left(self):
+        """
+        Returns the coordinates of the lower left corner of the image.
+
+        Parameters:
+        self: The current instance of the class.
+
+        Returns:
+        (x, y): The coordinates of the lower left corner of the image.
+        """
         col = {}
         for x in range(self.img.size[1]-1, 0, -1):
             for y in range(self.img.size[0]-1, 0, -1):
@@ -109,6 +136,17 @@ class AutoCrop:
 
 
     def get_lower_right(self):
+        """
+        This function gets the lower right coordinate of an image.
+        It takes a single parameter, self, which is the object of
+        the class it belongs to.
+        It iterates through the x-axis and y-axis of the image,
+        starting from the lower right corner and moving to the left and up.
+        It adds up the RGB values of each pixel and adds them to a dictionary.
+        It then finds the key with the maximum value from the dictionary
+        and finds the nearest key based on a given threshold.
+        It returns the nearest key, which is the lower right coordinate.
+        """
         col = {}
         for x in range(self.img.size[0]-1, 0, -1):
             for y in range(self.img.size[1]-1, 0, -1):
