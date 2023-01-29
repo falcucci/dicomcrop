@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 import os
-
 import jwt
+import uuid
 
 OUT_JPG_FILES = './OUT_DICOM_JPG'
 
 # how to generate a private key
 # > openssl rand -base64 32
-SECRET='3vL2ebKDOpytWw3iA+AYAfv+xGanebkgHCCz2caCjkc='
-# env: str = os.environ.get('ENV', 'dev')
+SECRET: str = os.environ.get('SECRET', uuid.uuid4())
 
 def open_(image): 
     """

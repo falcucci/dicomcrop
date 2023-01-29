@@ -8,7 +8,7 @@ def secret() -> str:
     from lib import SECRET
     return SECRET
 
-def token() -> str:
+def _hash(encrypted: bool = False) -> str:
     """
     Generate a token string.
 
@@ -18,7 +18,11 @@ def token() -> str:
     """
     import uuid   
     from lib import generate_token
-    return generate_token({ "id": "{0}".format(uuid.uuid4())})
+    return (
+        str(uuid.uuid4()) 
+        if encrypted
+        else generate_token({ "id": "{0}".format(uuid.uuid4())}) 
+    )
 
 def edges(image) -> str:
     """
@@ -63,7 +67,7 @@ def crop(image, output=''):
 
     print("Cropping area " + str(coordinates))
     cropped: Image.Image = _bytes.crop(coordinates) 
-    encoded_id: str = token()
+    encoded_id: str = _hash(encrypted=True)
     cropped.save('{0}/__{1}.jpg'.format(
         output,
         encoded_id
@@ -104,5 +108,5 @@ if __name__ == '__main__':
         '--image': crop,
         '--edges': edges,
         '--secret': secret,
-        '--token': token
+        '--token': _hash
     })
