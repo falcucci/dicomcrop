@@ -28,20 +28,26 @@ def crop(image, output=''):
     output : str, optional - The output directory to
     save the cropped image.
     """
-    import uuid
+    import uuid, os
     from PIL import Image
     from lib import AutoCrop, generate_token, OUT_JPG_FILES, open_
+    output = output or OUT_JPG_FILES 
     binary_function  = open_(image)
     _bytes = binary_function(image)
     img_crop: AutoCrop = AutoCrop(_bytes)
     coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
+    if not os.path.exists(output):
+        os.makedirs(output, exist_ok=True)
 
     print("Cropping area " + str(coordinates))
-    print(_bytes.size)
-
     cropped: Image.Image = _bytes.crop(coordinates) 
     encoded_id: str = generate_token({ "id": "{0}".format(uuid.uuid4())})
     cropped.save('{0}/__{1}.jpg'.format(
+        output or OUT_JPG_FILES,
+        encoded_id
+    ))
+
+    print("Cropped image saved to {0}/__{1}.jpg".format(
         output or OUT_JPG_FILES,
         encoded_id
     ))
@@ -61,10 +67,13 @@ def crop_images(directory, output=''):
     import os 
     import glob 
     from lib import create_output_dir, OUT_JPG_FILES
+    import multiprocessing
+    cpu_count: int = multiprocessing.cpu_count()
+    pool = multiprocessing.Pool(cpu_count)
     create_output_dir(output or OUT_JPG_FILES)
     images: list[str] = glob.glob(os.path.join(directory, '*.DCM'))
-    for image in images:
-        crop(image)
+    pool.map(crop, images)
+    pool.close()   
 
 if __name__ == '__main__':
     import fire
