@@ -30,6 +30,25 @@ Automatically crop away static borders in a single file
 dicomcrop --image <image>
 ```
 
+Generates cropped images encrypting private informations
+```bash
+dicomcrop --dir <dir> --encrypted
+```
+
+It's possible to disable the encrypted feature
+
+```bash
+dicomcrop --dir <dir> --encrypted=False
+```
+
+There is an easter egg to fetch informations from a spreadsheet file:
+
+```bash
+dicomcrop --dir <dir> --encrypted --egg=True
+```
+
+*all these extra commands can be applied following the `--image` command
+
 #### edges
 
 Extracts the edges around an medical image
