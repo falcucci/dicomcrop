@@ -1,3 +1,13 @@
+def secret() -> str:
+    """
+    This function returns a secret string from the library.
+
+    Returns:
+    str: A secret string.
+    """
+    from lib import SECRET
+    return SECRET
+
 def token() -> str:
     """
     Generate a token string.
@@ -93,5 +103,6 @@ if __name__ == '__main__':
         '--dir': crop_images,
         '--image': crop,
         '--edges': edges,
+        '--secret': secret,
         '--token': token
     })
