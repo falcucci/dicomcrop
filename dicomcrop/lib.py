@@ -7,7 +7,7 @@ OUT_JPG_FILES = './OUT_DICOM_JPG'
 
 # how to generate a private key
 # > openssl rand -base64 32
-SECRET: str = os.environ.get('SECRET', uuid.uuid4())
+SECRET: str = os.environ.get('SECRET', str(uuid.uuid4()))
 
 def open_(image): 
     """
@@ -19,14 +19,19 @@ def open_(image):
     Returns:
     image object
     """
+    import pydicom
     import dicom2jpg
     from PIL import Image
     ext: str = image.split('.')[-1]
     ext: str = ext.lower()
 
-    def extract_dicom(image) -> Image.Image:
+    def extract_dicom(image) -> tuple[
+        Image.Image,
+        pydicom.FileDataset
+    ]:
+        ds: pydicom.FileDataset = pydicom.dcmread(image)
         scaled_image = dicom2jpg.dicom2img(image)  
-        return Image.fromarray(scaled_image)
+        return (Image.fromarray(scaled_image), ds)
 
     return {
         "jpg": Image.open,

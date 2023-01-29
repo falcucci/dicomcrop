@@ -8,7 +8,7 @@ def secret() -> str:
     from lib import SECRET
     return SECRET
 
-def _hash(encrypted: bool = False) -> str:
+def _hash(data: dict = {}, encrypted: bool = False) -> str:
     """
     Generate a token string.
 
@@ -18,10 +18,11 @@ def _hash(encrypted: bool = False) -> str:
     """
     import uuid   
     from lib import generate_token
+    _id: str = str(uuid.uuid4())  
     return (
-        str(uuid.uuid4()) 
+        generate_token(data.get("PatientID", _id))  
         if encrypted
-        else generate_token({ "id": "{0}".format(uuid.uuid4())}) 
+        else _id
     )
 
 def edges(image) -> str:
@@ -42,7 +43,7 @@ def edges(image) -> str:
     coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
     return "{}".format(coordinates)
 
-def crop(image, output=''):
+def crop(image, output='', encrypted=True):
     """
     This function takes an image and an output
     directory as parameters and crops the image to a
@@ -58,8 +59,8 @@ def crop(image, output=''):
     from PIL import Image
     from lib import AutoCrop, generate_token, OUT_JPG_FILES, open_
     output = output or OUT_JPG_FILES 
-    binary_function  = open_(image)
-    _bytes = binary_function(image)
+    binary_function = open_(image)
+    _bytes, _objects = binary_function(image)
     img_crop: AutoCrop = AutoCrop(_bytes)
     coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
     if not os.path.exists(output):
@@ -67,7 +68,7 @@ def crop(image, output=''):
 
     print("Cropping area " + str(coordinates))
     cropped: Image.Image = _bytes.crop(coordinates) 
-    encoded_id: str = _hash(encrypted=True)
+    encoded_id: str = _hash(_objects, encrypted)
     cropped.save('{0}/__{1}.jpg'.format(
         output,
         encoded_id
