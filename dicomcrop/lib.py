@@ -105,7 +105,7 @@ class AutoCrop:
             return (nearest)
 
 
-    def get_lower_left(self):
+    def get_lower_left(self) -> int:
         """
         Returns the coordinates of the lower left corner of the image.
 
@@ -115,18 +115,18 @@ class AutoCrop:
         Returns:
         (x, y): The coordinates of the lower left corner of the image.
         """
-        col = {}
+        col: dict[int, int] = {}
         for x in range(self.img.size[1]-1, 0, -1):
             for y in range(self.img.size[0]-1, 0, -1):
                 color = self.img.getpixel((y, x))
                 col[x+1] = col.get(x+1, 0) + sum(color)
         else:
             key = max(col, key=col.get)
-            nearest = self.find_nearest_key_by_value(col, key, 10000)
+            nearest: int = self.find_nearest_key_by_value(col, key, 10000)
             return (nearest)
 
 
-    def get_lower_right(self):
+    def get_lower_right(self) -> int:
         """
         This function gets the lower right coordinate of an image.
         It takes a single parameter, self, which is the object of
@@ -171,8 +171,8 @@ class AutoCrop:
         """This function returns a tuple of the coordinates for a new image.
         The coordinates returned are the top left, top right, lower right,
         and lower left points of the image. """
-        top_right = self.get_top_right()
-        top_left = self.get_top_left() 
-        lower_right = self.get_lower_right()
-        lower_left = self.get_lower_left()
+        top_right: int = self.get_top_right()
+        top_left: int = self.get_top_left() 
+        lower_right: int = self.get_lower_right()
+        lower_left: int = self.get_lower_left()
         return (top_right, top_left, lower_right, lower_left)
