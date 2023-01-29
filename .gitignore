@@ -4,6 +4,7 @@ __pycache__/
 
 SAMPLE/
 OUT_DICOM_JPG/
+images-sample/
 
 # C extensions
 *.so

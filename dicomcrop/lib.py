@@ -7,9 +7,10 @@ from PIL import Image
 from openpyxl.workbook import Workbook
 from openpyxl.cell import Cell
 
-TAB_NAME: str = "Foglio1"
+TAB_NAME: str = "Cartel2"
 OUT_JPG_FILES = './OUT_DICOM_JPG'
-FILE_PATH: str = './SAMPLE/cartel.xlsx'
+FILE_PATH: str = './SAMPLE/Cartel2.xlsx'
+DEFAULT_WIDTH: int = 1024
 
 # how to generate a private key
 # > openssl rand -base64 32
@@ -154,7 +155,9 @@ class AutoCrop:
                 col[x] = col.get(x, 0) + sum(color)
         else:
             key = max(col, key=col.get)
-            nearest: int = self.find_nearest_key_by_value(col, key, 10000)
+            border= int(self.img.size[1] / 2)
+            key = border if key > border else key
+            nearest: int = self.find_nearest_key_by_value(col, key, 11000)
             return (nearest)
 
 
@@ -174,8 +177,10 @@ class AutoCrop:
                 color = self.img.getpixel((y, x))
                 col[x+1] = col.get(x+1, 0) + sum(color)
         else:
-            key = max(col, key=col.get)
-            nearest: int = self.find_nearest_key_by_value(col, key, 10000)
+            key: int = max(col, key=col.get)
+            half: int = self.img.size[1] / 2
+            key: int = half if half > key else key
+            nearest: int = self.find_nearest_key_by_value(col, key, 10100, self.img.size[1])
             return (nearest)
 
 
@@ -198,10 +203,10 @@ class AutoCrop:
                 col[x+1] = col.get(x+1, 0) + sum(color)
         else:
             key = max(col, key=col.get)
-            nearest: int = self.find_nearest_key_by_value(col, key, 10000)
+            nearest: int = self.find_nearest_key_by_value(col, key, 10000, self.img.size[0])
             return (nearest)
 
-    def find_nearest_key_by_value(self, mydict, high_key, minimal) -> int:
+    def find_nearest_key_by_value(self, mydict, high_key, minimal, default=0) -> int:
         """
         This function takes in a dictionary, a high key, and a minimal value,
         and returns the key in the dictionary closest to the minimal value.
@@ -218,7 +223,7 @@ class AutoCrop:
         for r_key in l_r_pixel_keys:
             if mydict[r_key] <= minimal:
                 return r_key
-        return high_key
+        return default
 
     def new_image_coordinates(self) -> tuple[int, int, int, int]:
         """This function returns a tuple of the coordinates for a new image.

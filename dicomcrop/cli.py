@@ -58,10 +58,20 @@ def crop(image, output='', encrypted=True, egg=False):
     """
     import os
     from PIL import Image
-    from dicomcrop.lib import AutoCrop, OUT_JPG_FILES, open_, easter_egg
+    from dicomcrop.lib import (
+        AutoCrop,
+        OUT_JPG_FILES,
+        open_,
+        easter_egg,
+        DEFAULT_WIDTH,
+    )
     output = output or OUT_JPG_FILES 
     binary_function = open_(image)
     _bytes, _objects = binary_function(image)
+    if _bytes.size[0] > DEFAULT_WIDTH:
+        _bytes = _bytes.crop(
+            (0, 0, _bytes.size[0] - 80, _bytes.size[1])
+        )
     img_crop: AutoCrop = AutoCrop(_bytes)
     coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
     if not os.path.exists(output):
@@ -98,13 +108,15 @@ def crop_images(directory, output='', encrypted=True, egg=False):
     """
     import os 
     import glob 
-    from dicomcrop.lib import create_output_dir, OUT_JPG_FILES
+    from dicomcrop.lib import create_output_dir, OUT_JPG_FILES, SECRET
     import multiprocessing
     output = output or OUT_JPG_FILES
+    output = './__encrypted_{}'.format(SECRET) if encrypted else output 
     cpu_count: int = multiprocessing.cpu_count()
     pool = multiprocessing.Pool(cpu_count)
     create_output_dir(output)
-    images: list[str] = glob.glob(os.path.join(directory, '*.DCM'))
+    images: list[str] = glob.glob(os.path.join(directory, '**/*.DCM'))
+    print("Cropping {} images".format(len(images)))
     images_: list[tuple[str, str, bool, bool]] = [(
         image,
         output,
