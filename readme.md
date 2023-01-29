@@ -47,7 +47,7 @@ There is an easter egg to fetch informations from a spreadsheet file:
 dicomcrop --dir <dir> --encrypted --egg=True
 ```
 
-*all these extra commands can be applied following the `--image` command
+*all these extra commands can be applied following the `--image` command*
 
 #### edges
 
