@@ -56,7 +56,7 @@ def easter_egg(patient_id) -> str:
     values: dict = map_values()
     return values.get(patient_id, {}).get('type', '')
 
-def open_(image) -> Image.Image: 
+def open_(image): 
     """
     This function opens an image file and returns the image object.
 

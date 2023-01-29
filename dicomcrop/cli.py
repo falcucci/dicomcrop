@@ -38,8 +38,8 @@ def edges(image) -> str:
     str: a string describing the edges of the image
     """
     from lib import AutoCrop, open_
-    binary_function  = open_(image)
-    _bytes = binary_function(image)
+    binary_function = open_(image)
+    _bytes, _ = binary_function(image)
     img_crop: AutoCrop = AutoCrop(_bytes)
     coordinates: tuple[int, int, int, int] = img_crop.new_image_coordinates()
     return "{}".format(coordinates)
