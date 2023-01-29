@@ -5,7 +5,7 @@ def secret() -> str:
     Returns:
     str: A secret string.
     """
-    from lib import SECRET
+    from dicomcrop import SECRET
     return SECRET
 
 def _hash(data: dict = {}, encrypted: bool = False) -> str:
@@ -17,7 +17,7 @@ def _hash(data: dict = {}, encrypted: bool = False) -> str:
     function with a unique id.
     """
     import uuid   
-    from lib import generate_token
+    from dicomcrop import generate_token
     _id: str = str(uuid.uuid4())  
     _id: str = data.get("PatientID", _id)
     return (
@@ -37,7 +37,7 @@ def edges(image) -> str:
     Returns:
     str: a string describing the edges of the image
     """
-    from lib import AutoCrop, open_
+    from dicomcrop import AutoCrop, open_
     binary_function = open_(image)
     _bytes, _ = binary_function(image)
     img_crop: AutoCrop = AutoCrop(_bytes)
@@ -58,7 +58,7 @@ def crop(image, output='', encrypted=True, egg=False):
     """
     import os
     from PIL import Image
-    from lib import AutoCrop, OUT_JPG_FILES, open_, easter_egg
+    from dicomcrop import AutoCrop, OUT_JPG_FILES, open_, easter_egg
     output = output or OUT_JPG_FILES 
     binary_function = open_(image)
     _bytes, _objects = binary_function(image)
@@ -98,7 +98,7 @@ def crop_images(directory, output='', encrypted=True, egg=False):
     """
     import os 
     import glob 
-    from lib import create_output_dir, OUT_JPG_FILES
+    from dicomcrop import create_output_dir, OUT_JPG_FILES
     import multiprocessing
     output = output or OUT_JPG_FILES
     cpu_count: int = multiprocessing.cpu_count()
