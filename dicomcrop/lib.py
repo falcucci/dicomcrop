@@ -3,13 +3,40 @@ import os
 import jwt
 import uuid
 
+from PIL import Image
+from openpyxl.workbook import Workbook
+from openpyxl.cell import Cell
+
+TAB_NAME: str = "Foglio1"
 OUT_JPG_FILES = './OUT_DICOM_JPG'
+FILE_PATH: str = './SAMPLE/cartel.xlsx'
 
 # how to generate a private key
 # > openssl rand -base64 32
 SECRET: str = os.environ.get('SECRET', str(uuid.uuid4()))
 
-def open_(image): 
+def get_data(path) -> Workbook:
+    from openpyxl import load_workbook
+    return load_workbook(filename = path)
+
+def map_values():
+    """
+    A dictionary within all useful informations built by
+    { id: { type: <type> } }
+    """
+    book: Workbook = get_data(FILE_PATH)
+    sheet: Workbook = book[TAB_NAME]
+    column: tuple[Cell] = sheet['B']
+    mapper: dict = {}
+    for cell in column:
+        mapper[cell.value] = { 'type': sheet['BS' + str(cell.row)].value }
+    return mapper
+
+def easter_egg(patient_id): 
+    values: dict = map_values()
+    return values.get(patient_id, {}).get('type', '')
+
+def open_(image) -> Image.Image: 
     """
     This function opens an image file and returns the image object.
 
@@ -21,7 +48,6 @@ def open_(image):
     """
     import pydicom
     import dicom2jpg
-    from PIL import Image
     ext: str = image.split('.')[-1]
     ext: str = ext.lower()
 
