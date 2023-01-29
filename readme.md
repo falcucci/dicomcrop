@@ -15,7 +15,7 @@ Prepare bedside medical images for machine learning and image interpretation. di
 
 Requires python 3.7 or higher
 
-Install with pip: ```pip3 install dicom-crop --upgrade```
+Install with pip: ```pip3 install dicomcrop --upgrade```
 
 
 #### crop
