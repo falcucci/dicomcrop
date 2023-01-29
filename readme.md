@@ -1,4 +1,4 @@
-# dicomcrop
+# dicomcrop [![PyPI](https://img.shields.io/pypi/pyversions/dicomcrop.svg?style=plastic)](https://github.com/falcucci/dicomcrop)
 
 dicomcrop is a project used for cropping digital images. It allows for users to select a rectangular area of the image and crop it out, allowing them to resize and adjust the image as needed.
 
