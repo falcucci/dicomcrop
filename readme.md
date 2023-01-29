@@ -82,7 +82,7 @@ dicomcrop --token
 Generate a encrypted hash scring:
 
 ```shell
-dicomcrop --token
+dicomcrop --token --encrypted
 > eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXRpZW50X2lkIjoiZDQxMmY4MmUtY2U5Ni00MTg4LWEwZTktNWFmMTIzYTlkMDZlIn0._xhyeXCoaboKH8rqvzKCWa6Zg7ne9bjSHn58c91aLCc
 ```
 
