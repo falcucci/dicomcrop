@@ -20,6 +20,15 @@ SECRET='3vL2ebKDOpytWw3iA+AYAfv+xGanebkgHCCz2caCjkc='
 # env: str = os.environ.get('ENV', 'dev')
 
 def open_(image): 
+    """
+    This function opens an image file and returns the image object.
+
+    Parameters:
+    image (str): path to the image file
+
+    Returns:
+    image object
+    """
     import dicom2jpg
     from PIL import Image
     ext: str = image.split('.')[-1]
