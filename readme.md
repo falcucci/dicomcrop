@@ -79,7 +79,7 @@ dicomcrop --token
 > e06dda30-5312-4623-936e-20b669c10495
 ```
 
-Generate a encrypted hash scring:
+Generate a encrypted hash string:
 
 ```shell
 dicomcrop --token --encrypted
