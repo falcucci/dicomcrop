@@ -91,3 +91,7 @@ dicomcrop --token --encrypted
 Command | Input | Output
 ------- | ----- | ------
 crop | ![Input](./examples/sample.jpg) | ![Out](./examples/output.jpg)
+
+## Credits
+
+- made in collaboration with [@auroragaeta](https://github.com/auroragaeta) ✨
